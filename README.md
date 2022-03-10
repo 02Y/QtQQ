@@ -1,5 +1,5 @@
 # QtQQ
-Imitate QQ based on Qt development（Used for imitation learning only）
+Imitate QQ based on Qt development
 
 需处理优化项：
 
