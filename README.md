@@ -1,5 +1,7 @@
 # QtQQ
 Imitate QQ based on Qt development
+*此项目使用 VS2017+Qt5.9.6
+ 使用到的Qt模块：core;gui;network;sql;webchannel;webengine;webenginewidgets;widgets;xml
 
 需处理优化项：
 
@@ -27,5 +29,4 @@ Imitate QQ based on Qt development
   
     12.登陆窗口头像未从数据库读取，始终是qqlogo
     
-*此项目使用 VS2017+Qt5.9.6
- 使用到的Qt模块：core;gui;network;sql;webchannel;webengine;webenginewidgets;widgets;xml
+
