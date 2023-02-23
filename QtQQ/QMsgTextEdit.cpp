@@ -16,7 +16,7 @@ void QMsgTextEdit::addEmotionUrl(int emotionNum)
 {
 	const QString& imageName = QString("qrc:/Resources/MainWindow/emotion/%1.png").arg(emotionNum);
 	const QString& flagName = QString("%1").arg(imageName);
-	insertHtml(QString("<img src='%1' />").arg(flagName));
+	insertHtml(QString("<img src='%1' />").arg(flagName));    //方便槽，插入假定为html格式的文本在当前光标位置
 	if (m_listEmotionUrl.contains(imageName))         //是否包含
 	{
 		return;

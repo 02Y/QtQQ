@@ -28,7 +28,7 @@ TalkWindowShell::TalkWindowShell(QWidget* parent)
 	initTcpSocket();
 	initUdpSocket();
 
-	QFile file("Resources/MainWindow/MsgHtml/msgtmpl.js");
+	QFile file(":/Resources/MainWindow/MsgHtml/msgtmpl.js");
 	if (!file.size())
 	{
 		QStringList employeesIDList;
@@ -51,8 +51,7 @@ void TalkWindowShell::addTalkWindow(TalkWindow* talkWindow, TalkWindowItem* talk
 {
 	ui.rightStackedWidget->addWidget(talkWindow);
 
-	connect(m_emotionWindow, SIGNAL(signalEmotionWindowHide()),
-		talkWindow, SLOT(onSetEmotionBtnStatus()));		// 
+	//connect(m_emotionWindow, SIGNAL(signalEmotionWindowHide()), talkWindow, SLOT(onSetEmotionBtnStatus()));		
 
 	QListWidgetItem* aItem = new QListWidgetItem(ui.listWidget);
 
@@ -377,6 +376,11 @@ void TalkWindowShell::handleReceivedMsg(int senderEmployeeID, int msgType, QStri
 
 	QString html = msgTextEdit.document()->toHtml();
 
+	if (html.contains("&quot;"))
+	{
+		html.replace("&quot;", "\"");
+	}
+
 	//文本html如果没有字体则添加字体	    
 	if (!html.contains(".png") && !html.contains("</span>"))     //不包含".png"是文本
 	{
@@ -397,9 +401,21 @@ void TalkWindowShell::handleReceivedMsg(int senderEmployeeID, int msgType, QStri
 		}
 
 		// 判断转换后，有没有包含 fontHtml
-		if (!html.contains(fontHtml))
+		if (!html.contains(fontHtml) && !CommonUtils::IsDigitString(strMsg) && !CommonUtils::IsEnglish(strMsg))
 		{
 			html.replace(strMsg, fontHtml);
+		}
+		else
+		{
+			if (CommonUtils::IsDigitString(strMsg))
+			{
+				int pos = html.lastIndexOf(strMsg);
+				html.replace(pos, strMsg.size(), fontHtml);
+			}
+			else if(CommonUtils::IsEnglish(strMsg))
+			{
+				html.replace(430, strMsg.size(), fontHtml);
+			}
 		}
 	}
 
@@ -460,7 +476,7 @@ void TalkWindowShell::onEmotionItemClicked(int emotionNum)
 
 	群聊文本信息如：1100012001100005hello   表示QQ-10001向群-2001发送文本信息，数据长度为00005，内容为hello
 	单聊图片信息如：0100091000201images060         
-	群聊文件信息如：1100052000210bytestest.textdatabeginhelloworld
+	群聊文件信息如：1100052000210bytestest.textdata_beginhelloworld
 
 	群聊文件信息解析：1 10001 2001 1 00005 hello
 	单聊图片信息解析：0 10009 10002 0 1 images 60
@@ -508,7 +524,6 @@ void TalkWindowShell::processPendingData()
 				msgType = 0;
 				int posImages = strData.indexOf("images");    //返回子字符串的位置
 				strMsg = strData.right(strData.length() - posImages - QString("images").length());  //截取images后面的表情名称
-
 			}
 			else if (cMsgType == '2')   //文件信息
 			{

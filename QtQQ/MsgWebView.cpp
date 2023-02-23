@@ -200,9 +200,9 @@ void MsgWebView::appendMsg(const QString& html, QString strObj)
 		}
 	}
 
-	msgObj.insert("MSG", qsMsg);
+	msgObj.insert("MSG", qsMsg);   
 
-	const QString& Msg = QJsonDocument(msgObj).toJson(QJsonDocument::Compact);
+	const QString& Msg = QJsonDocument(msgObj).toJson(QJsonDocument::Compact);    //从对象创建一个QJsonDocument再转换为指定格式的JSON文档
 	if (strObj == "0")    //发信息
 	{
 		this->page()->runJavaScript(QString("appendHtml0(%1)").arg(Msg));

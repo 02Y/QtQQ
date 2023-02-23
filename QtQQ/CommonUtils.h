@@ -39,5 +39,7 @@ public:
 	static void loadStyleSheet(QWidget* widget, const QString& sheetName);
 	static void setDefaultSkinColor(const QColor& color);
 	static QColor getDefaultSkinColor();
+	static bool IsDigitString(QString strSource);
+	static bool IsEnglish(QString str);
 };
 

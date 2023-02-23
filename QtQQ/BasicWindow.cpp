@@ -119,7 +119,7 @@ void BasicWindow::mousePressEvent(QMouseEvent* event)
 	if (event->button() == Qt::LeftButton)
 	{
 		m_mousePressed = true;
-		m_mousePoint = event->globalPos() - pos();    //pos()     事件发生时相对于窗口左上角（0，0）的偏移
+		m_mousePoint = event->globalPos() - pos();    //pos() 获取的位置是主窗口左上角相对于电脑屏幕的左上角的（x=0,y=0）偏移位置
 		event->accept();
 	}
 }
@@ -201,9 +201,9 @@ void BasicWindow::initTitleBar(ButtonType buttontype)
 	m_titleBar->move(0, 0);
 
 	connect(m_titleBar, SIGNAL(signalButtonMinClicked()), this, SLOT(onButtonMinClicked()));
-	connect(m_titleBar, SIGNAL(signalButtonRestoreClicked()), this, SLOT(onButtonMinClicked()));
-	connect(m_titleBar, SIGNAL(signalButtonMaxClicked()), this, SLOT(onButtonMinClicked()));
-	connect(m_titleBar, SIGNAL(signalButtonCloseClicked()), this, SLOT(onButtonMinClicked()));
+	connect(m_titleBar, SIGNAL(signalButtonRestoreClicked()), this, SLOT(onButtonRestoreClicked()));
+	connect(m_titleBar, SIGNAL(signalButtonMaxClicked()), this, SLOT(onButtonMaxClicked()));
+	connect(m_titleBar, SIGNAL(signalButtonCloseClicked()), this, SLOT(onButtonCloseClicked()));
 }
 
 //设置标题栏

@@ -31,6 +31,8 @@ private:
 	//void initMarket();           //初始化市场部聊天
 	//void initDevelopTalk();      //初始化研发部聊天
 
+	void loadStyleSheet(const QColor& color);
+
 	void initGroupTalkStatus();   //初始化群聊状态(群聊 or 单聊)
 	void initTalkWindow();        //初始化群聊
 	void initPtoPTalk();          //初始化单聊

@@ -85,13 +85,13 @@
     <ClCompile Include="QMsgTextEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MsgWebView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SendFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ReceiveFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MsgWebView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,13 +150,13 @@
     <QtMoc Include="QMsgTextEdit.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="MsgWebView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="SendFile.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ReceiveFile.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MsgWebView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -201,5 +201,14 @@
     <ClInclude Include="CommonUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QtQQ.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>

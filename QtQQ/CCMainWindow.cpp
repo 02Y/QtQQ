@@ -11,7 +11,6 @@
 #include "RootContactItem.h"
 #include "ContactItem.h"
 #include "WindowManager.h"
-#include "TalkWindowShell.h"
 #include <QMouseEvent>
 #include <QApplication>
 #include <QSqlQuery>
@@ -182,9 +181,15 @@ QString CCMainWindow::getHeadPicturePath()
 	return strPicturePath;
 }
 
-void CCMainWindow::setUserName(const QString& username)
+void CCMainWindow::setUserName()
 {
 	ui.nameLabel->adjustSize();         //根据内容调整尺寸
+
+	QSqlQuery sql(QString("SELECT account FROM tab_account WHERE employeeID = %1").arg(gLoginEmployeeID));
+	sql.first();
+	QString username = sql.value(0).toString();
+
+	ui.nameLabel->setText(username.toLocal8Bit());
 
 	//文本过长则进行省略 ...
 	//fontMetrics() 返回QFontMetrics类对象，字体体积类
@@ -210,7 +215,8 @@ void CCMainWindow::setLevelPixmap(int level)
 
 	//个位
 	painter.drawPixmap(16, 4, QPixmap(":/Resources/MainWindow/levelvalue.png"), unitNum * 6, 0, 6, 7);
-
+	
+	painter.end();
 	ui.levelBtn->setIcon(levelPixmap);
 	ui.levelBtn->setIconSize(ui.levelBtn->size());
 }
@@ -312,7 +318,7 @@ void CCMainWindow::initContactTree()
 
 void CCMainWindow::resizeEvent(QResizeEvent* event)
 {
-	setUserName(QString::fromLocal8Bit("星辰亦无痕"));    //本地字符集转为Unicode
+	setUserName();    //本地字符集转为Unicode
 	BasicWindow::resizeEvent(event);
 }
 
@@ -382,7 +388,7 @@ void CCMainWindow::onItemCollapsed(QTreeWidgetItem* item)
 	bool bIsChild = item->data(0, Qt::UserRole).toBool();
 	if (!bIsChild)
 	{
-		//dynamic_cast 将基类对象指针（或引用）转换到继承类指针
+		//dynamic_cast 将基类对象指针（或引用）转换到继承类指针(或引用)
 		RootContactItem* pRootItem = dynamic_cast<RootContactItem*>(ui.treeWidget->itemWidget(item, 0));
 		if (pRootItem)
 		{

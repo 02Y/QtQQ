@@ -13,7 +13,7 @@ public:
 	~CCMainWindow();
 
 public:
-	void setUserName(const QString& username);          //用户名
+	void setUserName(/*const QString& username*/);          //用户名
 	void setLevelPixmap(int level);                     //等级
 	void setHeadPixmap(const QString& headPath);        //头像
 	void setStatusMenuIcon(const QString& statusPath);  //在线状态

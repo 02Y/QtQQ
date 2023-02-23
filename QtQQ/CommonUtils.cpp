@@ -78,3 +78,39 @@ QColor CommonUtils::getDefaultSkinColor()
 
 	return color;
 }
+
+bool CommonUtils::IsDigitString(QString strSource)
+{
+	bool bDigit = false;
+
+	if (strSource.isEmpty()) return bDigit;
+
+	QByteArray strByteArray = strSource.toLatin1();
+	const char *chString = strByteArray.data();
+
+	while (*chString && *chString >= '0' && *chString <= '9') chString++;
+
+	if (*chString) bDigit = false;
+	else bDigit = true;
+
+	return bDigit;
+}
+
+bool CommonUtils::IsEnglish(QString str)
+{
+	QByteArray ba = str.toLatin1();
+	const char *ch = ba.data();
+	if (str.length() == 1)
+	{
+		while (*ch) {
+			if ((*ch >= 'A' && *ch <= 'Z') || (*ch >= 'a' && *ch <= 'z')) {
+
+			}
+			else return false;
+
+			ch++;
+		}
+	}
+	return true;
+}
+

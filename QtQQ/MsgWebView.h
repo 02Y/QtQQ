@@ -18,7 +18,7 @@ signals:
 
 private:
 	void initHtmlTmpl();        //初始化聊天网页
-	QString getMsgTmplHtml(const QString& code);   
+	QString getMsgTmplHtml(const QString& code);    //读网页信息
 
 private:
 	QString m_msgLPicPath;     //发信息来的人的头像路径
@@ -26,14 +26,18 @@ private:
 	QString m_msgRHtmlTmpl;    //我发的信息
 };
 
+
+
 class MsgWebPage : public QWebEnginePage
 {
 	Q_OBJECT
 public:
 	MsgWebPage(QObject* parent = nullptr) : QWebEnginePage(parent){}
 protected:
-	bool acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame);     //接受导航请求
+	bool acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame) override;     //接受导航请求
 };
+
+
 
 //QWebEngineView 视图用于显示网页内容
 class MsgWebView : public QWebEngineView
@@ -50,7 +54,8 @@ signals:
 
 private:
 	QList<QStringList> parseHtml(const QString& html);              //解析html
-	//Qt中所有Dom（属性、说明、文本等）节点都可以使用QDomNode进行表示
+	
+	/*Qt中所有Dom（属性、说明、文本等）节点都可以使用QDomNode进行表示*/
 	QList<QStringList> parseDocNode(const QDomNode& node);    //解析节点
 
 private:

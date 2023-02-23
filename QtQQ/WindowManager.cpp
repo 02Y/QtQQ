@@ -2,6 +2,7 @@
 #include "TalkWindow.h"
 #include "TalkWindowItem.h"
 #include <QSqlQueryModel>
+#include <qsqlquery.h>
 
 Q_GLOBAL_STATIC(WindowManager, theInstance);      //单例模式， 创建全局静态对象
 
@@ -46,7 +47,7 @@ TalkWindowShell* WindowManager::getTalkWindowShell()
 	return m_talkwindowshell;
 }
 
-void WindowManager::addNewTalkWindow(const QString& uid/*, GroupType groupType, const QString& strPeople*/)
+void WindowManager::addNewTalkWindow(const QString& uid)
 {
 	if (m_talkwindowshell == nullptr)
 	{
@@ -73,15 +74,27 @@ void WindowManager::addNewTalkWindow(const QString& uid/*, GroupType groupType, 
 		QString strWindowName, strMsgLabel;
 		if (rows == 0)   //单聊
 		{
-			QString sql = QString("SELECT employee_name, employee_sign FROM tab_employees WHERE employeeID = %1").arg(uid);
+			//QString sql = QString("SELECT employee_name, employee_sign FROM tab_employees WHERE employeeID = %1").arg(uid);
+			QString sql = QString("SELECT employee_name, employee_sign, departmentID FROM tab_employees WHERE employeeID = %1").arg(uid);
 			sqlDepModel.setQuery(sql);	
 		}
 
 		QModelIndex indexDepIndex, signIndex;
 		indexDepIndex = sqlDepModel.index(0, 0);   //部门索引
-		signIndex = sqlDepModel.index(0, 1);       //签名索引
-		strWindowName = sqlDepModel.data(signIndex).toString();
+		//signIndex = sqlDepModel.index(0, 1);       //签名索引
+		strWindowName = sqlDepModel.data(indexDepIndex).toString();
 		strMsgLabel = sqlDepModel.data(indexDepIndex).toString();
+		if (rows == 0)
+		{
+			QModelIndex indexDepId;
+			indexDepId = sqlDepModel.index(0, 2);
+			QString strDepId = sqlDepModel.data(indexDepId).toString();
+			QSqlQuery query(QString("SELECT department_name FROM tab_department WHERE departmentID = %1").arg(strDepId));
+			query.exec();
+			QString strDepName;
+			if (query.first()) strDepName = query.value(0).toString();
+			strWindowName = strDepName + strMsgLabel;
+		}
 		
 		talkwindow->setWindowName(strWindowName);          //窗口名称
 		talkwindowItem->setMsgLabelContent(strMsgLabel);   //左侧联系人文本显示

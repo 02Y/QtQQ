@@ -7,8 +7,8 @@ RootContactItem::RootContactItem(bool hasArrow, QWidget* parent)
 	setFixedHeight(32);
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-	m_animation = new QPropertyAnimation(this, "rotation");      //初始化属性动画
-	m_animation->setDuration(30);       //50ms内动画完成实现
+	m_animation = new QPropertyAnimation(this, "rotation");      //初始化属性动画, 绑定“rotation”属性
+	m_animation->setDuration(30);       //30ms内动画完成实现
 	m_animation->setEasingCurve(QEasingCurve::InQuad);      //动画缓和曲线类型
 
 }
@@ -74,6 +74,7 @@ void RootContactItem::paintEvent(QPaintEvent* event)
 		p.translate(pixmap.width() / 2, pixmap.height() / 2);           //坐标系偏移(x方向偏移，y方向偏移)
 		p.rotate(m_rotation);           //旋转坐标系（顺时针）
 		p.drawPixmap(0 - pixmap.width() / 2, 0 - pixmap.height() / 2, pixmap);
+		p.end();
 
 		painter.drawPixmap(6, (height() - pixmap.height()) / 2, tmpPixmap);
 		painter.restore();      //恢复画家设置

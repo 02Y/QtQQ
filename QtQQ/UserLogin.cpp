@@ -46,7 +46,7 @@ bool UserLogin::connectMySql()
 	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
 	db.setDatabaseName("qtqq");
 	db.setHostName("localhost");   //主机名
-	db.setUserName("Gusu");        //用户名
+	db.setUserName("root");        //用户名
 	db.setPassword("zzh1009..");   //密码
 	db.setPort(3306);       //数据库默认端口
 

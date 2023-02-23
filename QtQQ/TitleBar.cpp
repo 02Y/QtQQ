@@ -12,6 +12,7 @@
 TitleBar::TitleBar(QWidget* parent)
 	: QWidget(parent), m_isPressed(false), m_buttonType(MIN_MAX_BUTTON)
 {
+	//setStyleSheet("color:yellow;");
 	initControl();               
 	initConnections();           
 	loadStyleSheet("Title");     

@@ -60,7 +60,7 @@
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>6</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
        <number>0</number>
@@ -76,6 +76,9 @@
         <property name="spacing">
          <number>0</number>
         </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QLabel" name="nameLabel">
           <property name="sizePolicy">
@@ -87,7 +90,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>27</height>
+            <height>47</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -184,39 +187,6 @@
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="signLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Aharoni</family>
-          <pointsize>10</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
       </item>
       <item>
        <widget class="QWidget" name="funWidget" native="true">
@@ -421,11 +391,20 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QSplitter#splitter::handle { background-color: #EBEBEB }</string>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="handleWidth">
-      <number>6</number>
+      <number>1</number>
+     </property>
+     <property name="childrenCollapsible">
+      <bool>true</bool>
      </property>
      <widget class="QSplitter" name="bodySplitter">
       <property name="sizePolicy">
@@ -434,8 +413,17 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QSplitter#bodySplitter::handle { background-color: #EBEBEB;  }</string>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+      <property name="opaqueResize">
+       <bool>true</bool>
       </property>
       <property name="handleWidth">
        <number>1</number>
@@ -696,7 +684,7 @@
              <string>关闭</string>
             </property>
             <property name="titleskin" stdset="0">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -718,7 +706,7 @@
              <string>发送</string>
             </property>
             <property name="titleskin" stdset="0">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>

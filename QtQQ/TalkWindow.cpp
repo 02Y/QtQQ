@@ -9,6 +9,7 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include "SendFile.h"
+#include "NotifyManager.h"
 
 extern QString gLoginEmployeeID;
 
@@ -18,6 +19,10 @@ TalkWindow::TalkWindow(QWidget* parent, const QString& uid/*, GroupType groupTyp
 	ui.setupUi(this);
 	WindowManager::getInstance()->addWindowName(m_talkId, this);
 	setAttribute(Qt::WA_DeleteOnClose);
+
+
+
+	connect(NotifyManager::getInstance(), &NotifyManager::signalSkinChanged, this, &TalkWindow::loadStyleSheet);
 
 	initGroupTalkStatus();
 	initControl();
@@ -36,14 +41,20 @@ void TalkWindow::onFileOpenBtnClicked(bool)
 
 void TalkWindow::onSendBtnClicked(bool)
 {
+	ui.textEdit->setText(ui.textEdit->toPlainText().trimmed());
 	if (ui.textEdit->toPlainText().isEmpty())
 	{
 		QToolTip::showText(this->mapToGlobal(QPoint(630, 660)),
 			QString::fromLocal8Bit("发送的信息不能为空！"), this, QRect(0, 0, 120, 100), 2000);
 		return;
 	}
+	
+	QString&& html = ui.textEdit->document()->toHtml();
 
-	QString& html = ui.textEdit->document()->toHtml();
+	if (html.contains("&quot;"))
+	{
+		html.replace("&quot;", "\"");
+	}
 
 	//文本html如果没有字体则添加字体
 	if (!html.contains(".png") && !html.contains("</span>"))
@@ -66,9 +77,14 @@ void TalkWindow::onSendBtnClicked(bool)
 		}
 
 		// 判断转换后，有没有包含 fontHtml
-		if (!html.contains(fontHtml))
+		if (!html.contains(fontHtml) && !CommonUtils::IsDigitString(text))
 		{
 			html.replace(text, fontHtml);
+		}
+		else
+		{
+			int pos = html.lastIndexOf(text);
+			html.replace(pos, text.size(), fontHtml);
 		}
 	}
 
@@ -86,6 +102,11 @@ void TalkWindow::addEmotionImage(int emotionNum)
 
 void TalkWindow::setWindowName(const QString& name)
 {
+	ui.nameLabel->setStyleSheet("color: rgb(112,114,113)");
+	ui.nameLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	QFont font("微软雅黑");
+	font.setBold(true);
+	ui.nameLabel->setFont(font);
 	ui.nameLabel->setText(name);
 }
 
@@ -114,6 +135,9 @@ void TalkWindow::onItemDoubleClicked(QTreeWidgetItem* item, int colunm)
 
 void TalkWindow::initControl()
 {
+	QColor color = CommonUtils::getDefaultSkinColor();
+	loadStyleSheet(color);
+
 	QList<int> rightWidgetSize;
 	rightWidgetSize << 600 << 138;
 	ui.bodySplitter->setSizes(rightWidgetSize);
@@ -285,6 +309,110 @@ void TalkWindow::initControl()
 //		addPeopInfo(pRootItem);
 //	}
 //}
+
+/*   QSS文件内容
+QToolButton#closeBtn {
+   background-color: rgb(141, 210, 235);
+   color:#ffffff;
+   font-size:12px;
+   border-radius:4px;
+   padding-right:0px;
+}
+QToolButton#closeBtn:hover {
+   background-color: rgba(141, 210, 235, 150);
+}
+QToolButton#closeBtn:pressed {
+   background-color: rgba(141, 210, 235, 150);
+}
+
+QToolButton#sendBtn {
+   background-color: rgb(141, 210, 235);
+   color:#ffffff;
+   font-size:12px;
+   border-radius:4px;
+   padding-right:20px;
+}
+QToolButton#sendBtn:hover {
+   background-color: rgba(141, 210, 235, 150);
+}
+QToolButton#sendBtn:pressed {
+   background-color: rgba(141, 210, 235, 150);
+}
+
+QToolButton#sendBtn::menu-button {
+	margin-top:5px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-left: 1px solid rgba(255, 255, 255, 100);
+	background-color: transparent;
+	width: 24px;
+	height: 14px;
+}
+
+QToolButton#sendBtn::menu-arrow {
+	image: url(:Resources/MainWindow/aio_setting_white_normal.png);
+}
+*/
+
+void TalkWindow::loadStyleSheet(const QColor& color)
+{
+	QString r = QString::number(color.red());
+	QString g = QString::number(color.green());
+	QString b = QString::number(color.blue());
+
+	QString styleSheet = QString("\
+		QToolButton#closeBtn {\
+			background-color: rgb(%1,%2,%3);    \
+			color:#ffffff;          \
+			font-size:12px;       \
+			border-radius:4px;    \
+			padding-right:0px;    \
+		}                        \
+\
+		QToolButton#closeBtn:hover{     \
+			background-color: rgba(%1,%2,%3, 100); \
+		}\
+\
+		QToolButton#closeBtn:pressed{ \
+			 background-color: rgba(%1,%2,%3, 70); \
+		} \
+\
+		QToolButton#sendBtn{ \
+			background-color: rgb(%1, %2, %3);    \
+			color:#ffffff;          \
+			font-size:12px;       \
+			border-radius:4px;    \
+			padding-right:0px;    \
+		} \
+		\
+		QToolButton#sendBtn:hover{ \
+			background-color: rgba(%1, %2, %3, 100); \
+		}\
+		\
+		QToolButton#sendBtn:pressed{ \
+			background-color: rgba(%1, %2, %3, 70); \
+		}\
+		\
+		QToolButton#sendBtn::menu-button{ \
+			margin-top:5px; \
+			border-top-right-radius: 4px; \
+			border-bottom-right-radius: 4px; \
+			border-left: 1px solid rgba(255, 255, 255, 110); \
+			background-color: transparent; \
+			width: 24px; \
+			height: 14px; \
+		}\
+		\
+		QToolButton#sendBtn::menu-arrow{ \
+			image: url(:Resources/MainWindow/aio_setting_white_normal.png); \
+		}").arg(r).arg(g).arg(b);
+
+	setStyleSheet(styleSheet);
+
+	//styleSheet += this->styleSheet();
+
+	setStyleSheet(styleSheet);
+}
 
 void TalkWindow::initGroupTalkStatus()
 {

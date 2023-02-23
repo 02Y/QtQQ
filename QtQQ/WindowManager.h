@@ -20,7 +20,7 @@ public:
 
 	TalkWindowShell* getTalkWindowShell();
 	
-	void addNewTalkWindow(const QString& uid/*, GroupType groupType = COMPANY, const QString& strPeople = ""*/);   //添加新窗口
+	void addNewTalkWindow(const QString& uid);   //添加新窗口
 	QString getCreatingTalkID();
 
 private:

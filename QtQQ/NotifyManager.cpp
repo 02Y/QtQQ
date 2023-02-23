@@ -10,6 +10,10 @@ NotifyManager::NotifyManager()
 
 NotifyManager::~NotifyManager()
 {
+	if (instance)
+	{
+		delete instance;
+	}
 }
 
 NotifyManager* NotifyManager::getInstance()

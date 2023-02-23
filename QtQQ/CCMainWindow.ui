@@ -563,6 +563,9 @@ font:75 12pt &quot;微软雅黑&quot;;</string>
             <property name="indentation">
              <number>0</number>
             </property>
+            <property name="rootIsDecorated">
+             <bool>false</bool>
+            </property>
             <property name="headerHidden">
              <bool>true</bool>
             </property>
