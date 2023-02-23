@@ -27,4 +27,4 @@ Imitate QQ based on Qt development
   
     12.登陆窗口头像未从数据库读取，始终是qqlogo
     
-
+*此项目使用 VS2017+Qt5.9.6
