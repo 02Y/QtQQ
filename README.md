@@ -27,4 +27,4 @@ Imitate QQ based on Qt development
   
     12.登陆窗口头像未从数据库读取，始终是qqlogo
     
-*因本人电脑硬件问题（没办法运行太多客户端），所以超多个客户端连接服务端仍需详细测试
+
