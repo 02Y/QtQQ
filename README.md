@@ -1,7 +1,7 @@
 # QtQQ
 Imitate QQ based on Qt development
 
-此项目使用 VS2017+Qt5.9.6 
+此项目使用 VS2017+Qt5.9.6+MySql
 
 使用到的Qt模块：core;gui;network;sql;webchannel;webengine;webenginewidgets;widgets;xml
 
